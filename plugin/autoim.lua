@@ -1,0 +1,1 @@
+require('autoim').setup()
