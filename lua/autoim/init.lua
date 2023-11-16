@@ -27,17 +27,13 @@ end
 
 -- 创建自动命令，当进入和退出插入模式时触发对应的函数
 function M.setup()
-  vim.api.nvim_create_autocmd("InsertModeEvents", {
-    { "InsertEnter", "*", "lua on_insert_enter()" },
-    { "InsertLeave", "*", "lua on_insert_leave()" },
-  })
-  -- vim.api.nvim_exec([[
-  --   augroup AutoIM
-  --   autocmd!
-  --   autocmd InsertEnter * lua require'autoim'.on_insert_enter()
-  --   autocmd InsertLeave * lua require'autoim'.on_insert_leave()
-  --   augroup END
-  -- ]], false)
+  vim.api.nvim_exec([[
+    augroup AutoIM
+    autocmd!
+    autocmd InsertEnter * lua require'autoim'.on_insert_enter()
+    autocmd InsertLeave * lua require'autoim'.on_insert_leave()
+    augroup END
+  ]], false)
 end
 
 return M
