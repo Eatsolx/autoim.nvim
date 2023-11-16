@@ -3,9 +3,9 @@ local M = {}
 -- 进入插入模式
 function M.on_insert_enter()
   -- 判断上次退出插入模式时的输入法状态
-  -- 如果是中文输入法则切换回中文输入法
+  -- 如果之前是中文输入法则切换回中文输入法
   local lastInputMethod = vim.b.lastInputMethod
-  if lastInputMethod and lastInputMethod ~= "com.apple.keylayout.ABC" then
+  if lastInputMethod == "" then
     vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
   end
 end
