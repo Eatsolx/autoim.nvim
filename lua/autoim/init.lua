@@ -36,11 +36,11 @@ end
 
 function M.setup()
   -- 创建一个名为 "AutoIM" 的自动命令组，并获取组的ID
-  local group_id = vim.api.nvim_create_augroup("AutoIM", { clear = true })
+  local AutoIM_id = vim.api.nvim_create_augroup("AutoIM", { clear = true })
 
   -- 为 InsertEnter 事件添加自动命令
   vim.api.nvim_create_autocmd({"InsertEnter"}, {
-    group = group_id,
+    group = AutoIM_id,
     callback = function()
       require'autoim'.on_insert_enter()
     end
@@ -48,7 +48,7 @@ function M.setup()
 
   -- 为 InsertLeave 事件添加自动命令
   vim.api.nvim_create_autocmd({"InsertLeave"}, {
-    group = group_id,
+    group = AutoIM_id,
     callback = function()
       require'autoim'.on_insert_leave()
     end
@@ -56,8 +56,7 @@ function M.setup()
 
   -- 结束自动命令组
   -- vim.api.nvim_command("augroup END")
-  vim.api.nvim_del_autocmd(group_id)
-
+  vim.api.nvim_del_autocmd(AutoIM_id)
 end
 
 
