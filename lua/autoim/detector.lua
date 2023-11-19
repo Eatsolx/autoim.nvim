@@ -4,7 +4,7 @@
 local M = {}
 
 -- 函数：检测文本是否包含注释
-function M.hasComment(line)
+function M.hasComment(text)
   -- 匹配单行注释
   local single_line_comment_pattern = "%s*[%#%-%/]"
 
@@ -36,21 +36,21 @@ function M.hasComment(line)
   }
 
   -- 检查是否包含单行注释
-  if string.match(line, single_line_comment_pattern) then
+  if string.match(text, single_line_comment_pattern) then
     return true
   end
 
   -- 检查是否包含多行注释标记
   for lang, start_pattern in pairs(multi_line_comment_start) do
     local end_pattern = multi_line_comment_end[lang]
-    if string.match(line, start_pattern) or string.match(line, end_pattern) then
+    local multi_line_pattern = start_pattern .. ".-" .. end_pattern
+    if string.match(text, multi_line_pattern) then
       return true
     end
   end
 
   return false
 end
-
 
 -- 函数：判断上次输入法是否为中文
 function M.isChineseInputMethod()
