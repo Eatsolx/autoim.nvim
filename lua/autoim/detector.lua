@@ -22,5 +22,11 @@ function M.isEnglishInputMethod()
   return currentInputMethod == ""
 end
 
+-- 函数：判断文件类型是否为markdown
+function M.isMarkdown()
+  local filetype = vim.bo.filetype
+  return filetype == "markdown"
+end
+
 -- 导出模块
 return M

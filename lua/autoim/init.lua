@@ -9,9 +9,13 @@ function M.on_insert_enter()
   if detector.isChineseInputMethod() then
     local line = vim.api.nvim_get_current_line()
     local has_comment = detector.hasComment(line)
+    local isMarkdown = detector.isMarkdown()
 
-    if has_comment then
-      -- 如果当行含有注释并且上次退出前输入法为英文，则切换为中文
+    -- 判断是否为Markdown
+    if isMarkdown then
+      vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+    -- 判断当行是否为注释
+    else if has_comment
       vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
     end
   end
@@ -19,14 +23,10 @@ end
 
 -- 退出插入模式
 function M.on_insert_leave()
-  -- 使用新的函数判断当前输入法状态
-  local lastInputMethod = detector.isEnglishInputMethod()
-
   -- 如果不是英文输入法则切换回英文输入法
-  if lastInputMethod then
+  if detector.isEnglishInputMethod() then
     vim.fn.system("xkbswitch -s com.apple.keylayout.ABC")
   end
-
 end
 
 -- 创建自动命令，当进入和退出插入模式时触发对应的函数
