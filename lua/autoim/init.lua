@@ -34,29 +34,39 @@ end
 
 -- 创建自动命令，当进入和退出插入模式时触发对应的函数
 -- function M.setup()
---   vim.api.nvim_exec([[
---     augroup AutoIM
---     autocmd!
---     autocmd InsertEnter * lua require'autoim'.on_insert_enter()
---     autocmd InsertLeave * lua require'autoim'.on_insert_leave()
---     augroup END
---   ]], false)
+--   -- 创建自动命令组
+--   vim.api.nvim_command("augroup AutoIM")
+--   -- 清空已存在的自动命令
+--   vim.api.nvim_command("autocmd!")
+--   -- 添加 InsertEnter 事件的自动命令
+--   vim.api.nvim_command("autocmd InsertEnter * lua require'autoim'.on_insert_enter()")
+--   -- 添加 InsertLeave 事件的自动命令
+--   vim.api.nvim_command("autocmd InsertLeave * lua require'autoim'.on_insert_leave()")
+--   -- 结束自动命令组
+--   vim.api.nvim_command("augroup END")
 -- end
 
 function M.setup()
-  -- 创建自动命令组
-  vim.api.nvim_command("augroup AutoIM")
+  -- Create an autocommand group named "AutoIM"
+  local group_id = vim.api.nvim_create_augroup("AutoIM", { clear = true })
 
-  -- 清空已存在的自动命令
-  vim.api.nvim_command("autocmd!")
+  -- Add an autocmd for InsertEnter event
+  vim.api.nvim_create_autocmd({"InsertEnter"}, {
+    group = group_id,
+    callback = function()
+      require'autoim'.on_insert_enter()
+    end
+  })
 
-  -- 添加 InsertEnter 事件的自动命令
-  vim.api.nvim_command("autocmd InsertEnter * lua require'autoim'.on_insert_enter()")
+  -- Add an autocmd for InsertLeave event
+  vim.api.nvim_create_autocmd({"InsertLeave"}, {
+    group = group_id,
+    callback = function()
+      require'autoim'.on_insert_leave()
+    end
+  })
 
-  -- 添加 InsertLeave 事件的自动命令
-  vim.api.nvim_command("autocmd InsertLeave * lua require'autoim'.on_insert_leave()")
-
-  -- 结束自动命令组
+  -- End the autocommand group
   vim.api.nvim_command("augroup END")
 end
 
