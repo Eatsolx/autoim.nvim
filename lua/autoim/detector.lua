@@ -4,13 +4,13 @@
 local M = {}
 
 -- 函数：检测文本是否包含注释
-function module.hasComment(line)
+function M.hasComment(line)
     local comment_pattern = "%s*[%#%-%/%*]"
     return string.match(line, comment_pattern) ~= nil
 end
 
 -- 函数：判断上次输入法是否为中文
-function module.isChineseInputMethod()
+function M.isChineseInputMethod()
     local lastInputMethod = vim.b.lastInputMethod
     return lastInputMethod == ""
 end
