@@ -7,12 +7,14 @@ function M.on_insert_enter()
   -- 判断上次退出插入模式时的输入法状态
   -- 如果之前是中文输入法则切换回中文输入法
   if detector.isChineseInputMethod() then
+    -- 传入上下十行内的数据
     local current_line = vim.fn.line(".")
     local start_line = math.max(current_line - 10, 1)
     local end_line = math.min(current_line + 10, vim.fn.line("$"))
     local current_lines = vim.api.nvim_buf_get_lines(0, current_line - 1, current_line, false)
     local above_lines = vim.api.nvim_buf_get_lines(0, start_line - 1, current_line - 1, false)
     local below_lines = vim.api.nvim_buf_get_lines(0, current_line, end_line, false)
+    -- END
 
     local isMarkdown = detector.isMarkdown()
 
