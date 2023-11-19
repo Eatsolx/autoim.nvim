@@ -18,6 +18,7 @@ end
 -- 函数：判断当前输入法是否为英文
 function M.isEnglishInputMethod()
   local currentInputMethod = vim.fn.system("xkbswitch -g | grep com.apple.keylayout.ABC")
+  vim.b.lastInputMethod = currentInputMethod
   return currentInputMethod == ""
 end
 

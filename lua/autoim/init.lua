@@ -27,7 +27,6 @@ function M.on_insert_leave()
     vim.fn.system("xkbswitch -s com.apple.keylayout.ABC")
   end
 
-  vim.b.lastInputMethod = currentInputMethod
 end
 
 -- 创建自动命令，当进入和退出插入模式时触发对应的函数
