@@ -7,16 +7,20 @@ function M.on_insert_enter()
   -- 判断上次退出插入模式时的输入法状态
   -- 如果之前是中文输入法则切换回中文输入法
   if detector.isChineseInputMethod() then
-    local line = vim.api.nvim_get_current_line()
-    local has_comment = detector.hasComment(line)
+    local current_line = vim.fn.line(".")
+    local start_line = math.max(current_line - 10, 1)
+    local end_line = math.min(current_line + 10, vim.fn.line("$"))
+    local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+
     local isMarkdown = detector.isMarkdown()
 
     -- 判断是否为Markdown
     if isMarkdown then
       vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
-    -- 判断当行是否为注释
-    elseif has_comment then
+    else
+      if detector.hasComment(lines) then
         vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+      end
     end
   end
 end

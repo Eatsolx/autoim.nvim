@@ -4,7 +4,7 @@
 local M = {}
 
 -- 函数：检测文本是否包含注释
-function M.hasComment(text)
+function M.hasComment(lines)
   -- 匹配单行注释
   local single_line_comment_pattern = "%s*[%#%-%/]"
 
@@ -36,15 +36,29 @@ function M.hasComment(text)
   }
 
   -- 检查是否包含单行注释
-  if string.match(text, single_line_comment_pattern) then
-    return true
+  for _, line in ipairs(lines) do
+    if string.match(line, single_line_comment_pattern) then
+      return true
+    end
   end
 
   -- 检查是否包含多行注释标记
   for lang, start_pattern in pairs(multi_line_comment_start) do
     local end_pattern = multi_line_comment_end[lang]
     local multi_line_pattern = start_pattern .. ".-" .. end_pattern
-    if string.match(text, multi_line_pattern) then
+
+    -- 检查是否存在一对符合的开始和结束关键字
+    local match_start, match_end = false, false
+    for _, line in ipairs(lines) do
+      if string.match(line, start_pattern) then
+        match_start = true
+      end
+      if string.match(line, end_pattern) then
+        match_end = true
+      end
+    end
+
+    if match_start and match_end then
       return true
     end
   end
