@@ -15,5 +15,11 @@ function M.isChineseInputMethod()
   return lastInputMethod == ""
 end
 
+-- 函数：判断当前输入法是否为英文
+function M.isEnglishInputMethod()
+  local currentInputMethod = vim.fn.system("xkbswitch -g | grep com.apple.keylayout.ABC")
+  return currentInputMethod == ""
+end
+
 -- 导出模块
 return M

@@ -19,10 +19,8 @@ end
 
 -- 退出插入模式
 function M.on_insert_leave()
-  -- 获取当前输入法状态
-  local currentInputMethod = vim.fn.system("xkbswitch -g | grep com.apple.keylayout.ABC")
-  -- 如果为英文输入法，则为False
-  local lastInputMethod = currentInputMethod == ""
+  -- 使用新的函数判断当前输入法状态
+  local lastInputMethod = detector.isEnglishInputMethod()
 
   -- 如果不是英文输入法则切换回英文输入法
   if lastInputMethod then
