@@ -1,12 +1,19 @@
 local M = {}
 
+local detector = require'autoim.detector'
+
 -- 进入插入模式
 function M.on_insert_enter()
   -- 判断上次退出插入模式时的输入法状态
   -- 如果之前是中文输入法则切换回中文输入法
-  local lastInputMethod = vim.b.lastInputMethod
-  if lastInputMethod == "" then
-    vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+  if detector.isChineseInputMethod() then
+    local line = vim.api.nvim_get_current_line()
+    local has_comment = detector.hasComment(line)
+
+    if has_comment then
+      -- 如果当行含有注释并且上次退出前输入法为英文，则切换为中文
+      vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+    end
   end
 end
 
