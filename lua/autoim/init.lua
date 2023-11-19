@@ -15,8 +15,10 @@ function M.on_insert_enter()
     if isMarkdown then
       vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
     -- 判断当行是否为注释
-    else if has_comment
-      vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+    else 
+      if has_comment then
+        vim.fn.system("xkbswitch -s com.apple.inputmethod.SCIM.ITABC")
+      end
     end
   end
 end
