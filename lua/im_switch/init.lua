@@ -18,8 +18,6 @@ end
 
 -- 切换输入法到 ABC
 local function switch_to_abc()
-  if not M.is_mac() then return end
-
   -- 获取配置的布局或使用默认值
   local layout = vim.g.im_switch_layout or "com.apple.keylayout.ABC"
 
