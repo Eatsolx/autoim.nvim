@@ -25,10 +25,10 @@ local function switch_to_abc()
   
   -- 使用 xkbswitch 切换输入法
   local cmd = string.format("xkbswitch -s '%s'", layout)
-  -- local handle = io.popen(cmd .. " 2>&1")  -- 捕获标准错误输出
-  -- local output = handle:read("*a")
-  -- local success, exit_code, error_msg = handle:close()
-  -- 
+  local handle = io.popen(cmd .. " 2>&1")  -- 捕获标准错误输出
+  local output = handle:read("*a")
+  local success, exit_code, error_msg = handle:close()
+  
   -- -- 改进的错误处理
   -- if not success or exit_code ~= 0 then
   --   local msg = string.format(
